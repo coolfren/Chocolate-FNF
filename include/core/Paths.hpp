@@ -14,6 +14,13 @@ enum class FileType
     TTF
 };
 
+/**
+ * @brief Get the Image object
+ * @todo make this work cross platform
+ * @param name name of the image
+ * @param filetype the filetype of the image
+ * @return const char* 
+ */
 const char* getImage(const char* name, FileType filetype);
 const char* getImage(const char* name);
 

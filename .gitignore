@@ -1,0 +1,10 @@
+build/
+
+# Wii
+*.dol
+*.elf
+# Switch
+*.nro
+*.nacp
+# PC
+sdlproj

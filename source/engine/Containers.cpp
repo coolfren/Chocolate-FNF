@@ -1,0 +1,32 @@
+#include "engine/Containers.hpp"
+
+namespace Containers
+{
+    Group::Group(){
+        type = Engine::Type::GROUP;
+    }
+    Group::~Group(){
+        for(auto& object : objects){
+            delete object;
+        }
+    }
+    void Group::update(){
+        for(auto& object : objects){
+            object->update();
+        }        
+    }
+    
+    void Group::add(Basic* object)
+    {
+        objects.push_back(object);
+    }
+
+    void Group::remove(Basic* object)
+    {
+        auto found = std::find(objects.begin(), objects.end(), object);
+        if(found != objects.end())
+        {
+            objects.erase(found);
+        }
+    }
+} // namespace containers

@@ -34,7 +34,7 @@ namespace Engine
             frameIndex = (SDL_GetTicks() / 24) % frames[curAnim].size();
             else
                 frameIndex = 0;
-            _pos = {x, y, frame->w, frame->h};
+            _pos = {x - frame->x, y - frame->y, frame->w, frame->h};
         }
         else
             _pos = {x, y, surf->w, surf->h};

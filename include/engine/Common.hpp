@@ -9,6 +9,7 @@
 #include <chrono>
 #include <map>
 #include <memory>
+#include <cmath>
 // End of Standard Libary Includes
 #include "engine/SDL.hpp"
 #ifdef __SWITCH__

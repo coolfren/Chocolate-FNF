@@ -2,7 +2,12 @@
 
 namespace Engine
 {
-    State::State(){}
+    State::State(){
+        lastBeat = 0;
+        lastStep = 0;
+        curStep = 0;
+        curBeat = 0;
+    }
 
     State::~State()
     {
@@ -14,6 +19,12 @@ namespace Engine
 
     void State::create(){}
     void State::update(){
+        unsigned int oldStep = curStep;
+        updateCurStep();
+        updateBeat();
+        if(oldStep != curStep && curStep > 0)
+            stepHit();
+        
         for(auto& object : objects){
             object->update();
         }
@@ -30,4 +41,22 @@ namespace Engine
             objects.erase(found);
         }
     }
+
+    void State::updateBeat()
+    {
+        curBeat = floor(curStep / 4);
+    }
+
+    void State::updateCurStep()
+    {
+        curStep = std::floor((Music::Conductor::songPosition) / Music::Conductor::stepCrochet);
+    }
+
+    void State::stepHit()
+    {
+        if(curStep % 4 == 0)
+            beatHit();
+    }
+
+    void State::beatHit(){}
 }

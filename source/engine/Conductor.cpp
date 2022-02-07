@@ -2,7 +2,7 @@
 namespace Music
 {
     int Conductor::bpm = 100;
-    float Conductor::crochet = ((60 / bpm) * 1000); // beats in milliseconds
+    float Conductor::crochet = ((60.0f / bpm) * 1000); // beats in milliseconds
     float Conductor::stepCrochet = crochet / 4; // steps in milliseconds
     float Conductor::songPosition;
     float Conductor::lastSongPos;
@@ -10,12 +10,10 @@ namespace Music
     
     int Conductor::safeFrames = 10;
     float Conductor::safeZoneOffset = (safeFrames / 60) * 1000; // is calculated in create(), is safeFrames in milliseconds
+    void Conductor::changeBPM(int newBpm){
+        Conductor::bpm = newBpm;
 
-    static void changeBPM(int newBpm)
-	{
-		Conductor::bpm = newBpm;
-
-		Conductor::crochet = ((60 / Conductor::bpm) * 1000);
-		Conductor::stepCrochet = Conductor::crochet / 4;
+        Conductor::crochet = ((60.0f / Conductor::bpm) * 1000);
+        Conductor::stepCrochet = Conductor::crochet / 4;
 	}
 }

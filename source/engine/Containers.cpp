@@ -29,4 +29,9 @@ namespace Containers
             objects.erase(found);
         }
     }
+
+    Engine::Basic* Group::operator[](int index)
+    {
+        return objects[index];
+    }
 } // namespace containers

@@ -13,5 +13,6 @@ namespace States
         TestState(){};
         ~TestState(){};
         void create();
+        virtual void beatHit();
     };
 }

@@ -12,5 +12,6 @@ namespace Containers
         void update();
         void add(Basic* object);
         void remove(Basic* object);
+        Engine::Basic* operator[](int index);
     };
 } // namespace containers

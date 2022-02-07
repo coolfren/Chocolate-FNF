@@ -23,7 +23,7 @@ const char* getImage(const char* name, FileType filetype){ // originally was goi
 
 const char* getImage(const char* name){ // overloading so it automatically assumes PNG
     std::string* _path = new std::string(basePath); // lol goodbye memory management
-    return _path->append("images/").append(name).append(".png").c_str(); 
+    return _path->append("images/").append(name).append(".png").c_str();
 }
 
 const char* getFont(const char* name){

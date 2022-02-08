@@ -7,22 +7,26 @@ namespace Engine
     Sprite::Sprite(const char* path){
         type = Type::SPRITE;
         animated = false;
-
+        #ifdef USE_SURF
         surf = IMG_Load(path);
         if(surf == NULL){
             surf = IMG_Load(getImage("missing"));
         }
-        tex = SDL_CreateTextureFromSurface(Engine::renderer, surf);
-
-        _pos = {0, 0, surf->w, surf->h};
+        #endif
+        tex = IMG_LoadTexture(Engine::renderer, path);//SDL_CreateTextureFromSurface(Engine::renderer, surf);
+        int wd, hi;
+        SDL_QueryTexture(tex, NULL, NULL, &wd, &hi);
+        _pos = {0, 0, wd, hi};
         frame = nullptr;
 
-        w = surf->w;
-        h = surf->h;
+        w = wd;
+        h = hi;
     }
 
     Sprite::~Sprite(){
+        #ifdef USE_SURF
         SDL_FreeSurface(surf);
+        #endif
         SDL_DestroyTexture(tex);
     }
 
@@ -34,10 +38,13 @@ namespace Engine
             frameIndex = (SDL_GetTicks() / 24) % frames[curAnim].size();
             else
                 frameIndex = 0;
-            _pos = {x - frame->x, y - frame->y, frame->w, frame->h};
+            if(frame != nullptr)
+                _pos = {x, y, frame->w, frame->h};
+            else
+                _pos = {x, y, w, h};
         }
         else
-            _pos = {x, y, surf->w, surf->h};
+            _pos = {x, y, w, h};
     }
 
     SDL_Texture* Sprite::getTex(){
@@ -55,15 +62,18 @@ namespace Engine
     void Sprite::parseSparrowSpritesheet(const char* path, int frameps, const std::string& defaultAnimation){
         fps = frameps;
         tinyxml2::XMLDocument doc;
-        doc.LoadFile(path);
+        if(doc.LoadFile(path) != tinyxml2::XML_SUCCESS){
+            std::cerr << "Error loading spritesheet: " << path << std::endl;
+        }
         //let's open the root element called TextureAtlas
         tinyxml2::XMLElement* root = doc.FirstChildElement("TextureAtlas");
         //now we can get all the children called "SubTexture" of the root element
         tinyxml2::XMLElement* subTexture = root->FirstChildElement("SubTexture");
         while(subTexture != nullptr){
             //now we can get all the attributes of the SubTexture
-            std::string name = subTexture->Attribute("name");
-            name = name.substr(0, name.size() - 4);
+            std::string tmpname = subTexture->Attribute("name");
+            std::string name = tmpname.substr(0, tmpname.size() - 4);
+            //int num = std::stoi(tmpname.substr(tmpname.size() - 4, tmpname.size()));
             int x = subTexture->IntAttribute("x");
             int y = subTexture->IntAttribute("y");
             int w = subTexture->IntAttribute("width");
@@ -72,7 +82,9 @@ namespace Engine
             subTexture = subTexture->NextSiblingElement("SubTexture");
             //and add it to the map
             frames[name].push_back({x, y, w, h});
+            //frames[name][num] = {x, y, w, h};
         }
+        std::cout << "passed!" << std::endl;
         curAnim = defaultAnimation;
         animated = true;
     }

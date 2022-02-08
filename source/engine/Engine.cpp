@@ -28,7 +28,9 @@ namespace Engine
                 break;
             case Type::SHAPE:
                 break;
-            }
+            case Type::NOTHING:
+                break;
+        }
     }
 
     void initialize(launchOptions launch, Engine::State* beginState){
@@ -67,6 +69,9 @@ namespace Engine
     void destruct(){
         SDL_DestroyRenderer(Engine::renderer);
         SDL_DestroyWindow(Engine::window);
+        delete curState;
+        IMG_Quit();
+        TTF_Quit();
         SDL_Quit();
     }
 };

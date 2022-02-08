@@ -8,7 +8,7 @@ namespace Containers
         public:
         std::vector<Basic*> objects;
         Group();
-        ~Group();
+        virtual ~Group();
         void update();
         void add(Basic* object);
         void remove(Basic* object);

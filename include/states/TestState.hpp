@@ -14,5 +14,6 @@ namespace States
         ~TestState(){};
         void create();
         virtual void beatHit();
+        virtual void createCoolText(const std::string& funny);
     };
 }

@@ -59,4 +59,25 @@ namespace Engine
     }
 
     void State::beatHit(){}
+
+    void threadManager::add(const char* name, std::thread& thread)
+    {
+        _threads[name] = &thread;
+        thread.detach();
+    }
+    
+    void threadManager::add(const char* name, std::function<void()> func){
+        std::thread _tempThread(func);
+        _threads[name] = &_tempThread;
+        _tempThread.detach();
+    }
+
+    void threadManager::remove(const char* name)
+    {
+        _threads.erase(name);
+    }
+
+    std::thread& threadManager::operator[](const char* name){
+        return *_threads[name];
+    }
 }

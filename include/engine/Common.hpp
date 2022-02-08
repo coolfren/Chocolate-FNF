@@ -3,6 +3,8 @@
 #include <iostream>
 #include <string>
 #include <vector>
+#include <deque>
+#include <functional>
 #include <algorithm>
 #include <fstream>
 #include <thread>

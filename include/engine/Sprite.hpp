@@ -10,9 +10,9 @@ namespace Engine
         SDL_Rect *frame;
 
         SDL_Texture* tex; 
-
+#ifdef USE_SURF //abandoning surfaces (for now)
         SDL_Surface* surf;
-
+#endif
         std::map<std::string, std::vector<SDL_Rect>> frames;
         
         public:
@@ -25,7 +25,7 @@ namespace Engine
         int w = 0, h = 0;
 
         Sprite(const char* path);
-        ~Sprite();
+        virtual ~Sprite();
 
         virtual void update();
 

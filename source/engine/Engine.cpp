@@ -21,6 +21,11 @@ namespace Engine
             case Type::TEXT:
                 SDL_RenderCopy(Engine::renderer, ((Text*)obj)->tex, nullptr, &((Text*)obj)->pos);
                 break;
+            case Type::ALPHABET:
+                for(auto& object : ((Engine::Alphabet*)obj)->objects){
+                    render(object);
+                }
+                break;
             case Type::GROUP:
                 for(auto& object : ((Containers::Group*)obj)->objects){
                     render(object);

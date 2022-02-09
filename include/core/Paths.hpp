@@ -24,4 +24,6 @@ enum class FileType
 const char* getImage(const char* name, FileType filetype);
 const char* getImage(const char* name);
 
+const char* getXML(const char* name);
+
 const char* getFont(const char* name);

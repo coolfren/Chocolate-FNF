@@ -26,6 +26,11 @@ const char* getImage(const char* name){ // overloading so it automatically assum
     return _path->append("images/").append(name).append(".png").c_str();
 }
 
+const char* getXML(const char* name){
+    std::string* _path = new std::string(basePath);
+    return _path->append("images/").append(name).append(".xml").c_str();
+}
+
 const char* getFont(const char* name){
     std::string* _path = new std::string(basePath);
     return _path->append("fonts/").append(name).append(".ttf").c_str();

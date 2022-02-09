@@ -4,6 +4,15 @@
 
 namespace Engine
 {
+    Sprite::Sprite(){
+        type = Type::SPRITE;
+        animated = false;
+        frame = (Frame*)malloc(sizeof(Frame));
+        w = 10;
+        h = 10;
+        _pos = {10, 10, 10, 10};
+    }
+
     Sprite::Sprite(const char* path){
         type = Type::SPRITE;
         animated = false;
@@ -17,7 +26,7 @@ namespace Engine
         int wd, hi;
         SDL_QueryTexture(tex, NULL, NULL, &wd, &hi);
         _pos = {0, 0, wd, hi};
-        frame = nullptr;
+        frame = (Frame*)malloc(sizeof(Frame));
 
         w = wd;
         h = hi;
@@ -32,14 +41,13 @@ namespace Engine
 
     void Sprite::update(){
         if(animated){
-            frame = &frames[curAnim][frameIndex];
-            if(frames[curAnim].size() > frameIndex)
-            //increment frameIndex, the frame index will determine the frame to be rendered. it will increment by 1 each 24 frame in 60 frames
-            frameIndex = (SDL_GetTicks() / 24) % frames[curAnim].size();
+            if(frames[curAnim].size() > 0)
+                frameIndex = (SDL_GetTicks() / (fps + 10)) % frames[curAnim].size(); // the plus 10 is a temporary fix until i find something better
             else
                 frameIndex = 0;
+            frame = &frames[curAnim][frameIndex];
             if(frame != nullptr)
-                _pos = {x, y, frame->w, frame->h};
+                _pos = {x - frame->frameX, y - frame->frameY, frame->w, frame->h};
             else
                 _pos = {x, y, w, h};
         }
@@ -51,22 +59,35 @@ namespace Engine
         return tex;
     }
 
+    void Sprite::setTex(SDL_Texture* tex){
+        this->tex = tex;
+    }
+
     const SDL_Rect* Sprite::getPos(){
         return &_pos;
     }
 
     const SDL_Rect* Sprite::getFrame(){
-        return frame;
+        return (const SDL_Rect*)frame;
+    }
+
+    std::map<std::string, std::vector<Frame>>* Sprite::getFrames(){
+        return &frames;
+    }
+
+    void Sprite::setFrames(std::map<std::string, std::vector<Frame>>* frames){
+        this->frames = *frames;
     }
 
     void Sprite::parseSparrowSpritesheet(const char* path, int frameps, const std::string& defaultAnimation){
         fps = frameps;
-        tinyxml2::XMLDocument doc;
-        if(doc.LoadFile(path) != tinyxml2::XML_SUCCESS){
-            std::cerr << "Error loading spritesheet: " << path << std::endl;
+        frameIndex = 0;
+        tinyxml2::XMLDocument* doc = new tinyxml2::XMLDocument();
+        if(doc->LoadFile(path) != tinyxml2::XML_SUCCESS){
+            std::cerr << "Error loading spritesheet: " << path << '\n';
         }
         //let's open the root element called TextureAtlas
-        tinyxml2::XMLElement* root = doc.FirstChildElement("TextureAtlas");
+        tinyxml2::XMLElement* root = doc->FirstChildElement("TextureAtlas");
         //now we can get all the children called "SubTexture" of the root element
         tinyxml2::XMLElement* subTexture = root->FirstChildElement("SubTexture");
         while(subTexture != nullptr){
@@ -78,14 +99,22 @@ namespace Engine
             int y = subTexture->IntAttribute("y");
             int w = subTexture->IntAttribute("width");
             int h = subTexture->IntAttribute("height");
+            int frameX = subTexture->IntAttribute("frameX");
+            int frameY = subTexture->IntAttribute("frameY");
             //now we can get the next SubTexture
             subTexture = subTexture->NextSiblingElement("SubTexture");
             //and add it to the map
-            frames[name].push_back({x, y, w, h});
+            frames[name].push_back({x, y, w, h, frameX, frameY});
             //frames[name][num] = {x, y, w, h};
         }
-        std::cout << "passed!" << std::endl;
+        delete doc;
         curAnim = defaultAnimation;
+        frame = &frames[curAnim][0];
         animated = true;
+    }
+
+    void Sprite::playAnim(const char* anim){
+        frameIndex = 0;
+        curAnim = anim;
     }
 }

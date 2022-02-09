@@ -4,6 +4,7 @@
 #include "engine/Text.hpp"
 #include "core/Paths.hpp"
 #include "engine/Containers.hpp"
+#include "engine/Alphabet.hpp"
 
 namespace States
 {

@@ -27,6 +27,7 @@ namespace Engine
         NOTHING,
         SPRITE,
         TEXT,
+        ALPHABET,
         GROUP,
         SHAPE
     };

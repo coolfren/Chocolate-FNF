@@ -42,6 +42,9 @@ namespace Engine
         SDL_Init(SDL_INIT_EVERYTHING);
         IMG_Init(IMG_INIT_PNG);
 	    TTF_Init();
+        Mix_Init(MIX_INIT_OGG);
+        Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 2048);
+
         #ifdef __SWITCH__
         romfsInit();
         chdir("romfs:/");
@@ -58,10 +61,6 @@ namespace Engine
                 }
             }
             SDL_RenderClear(Engine::renderer);
-            //draw a red rectangle on the screen
-            SDL_Rect rect = {0, 0, 100, 100};
-            SDL_SetRenderDrawColor(Engine::renderer, 255, 0, 0, 255);
-            SDL_RenderFillRect(Engine::renderer, &rect);
             curState->update();
             for(auto& obj : curState->objects){
                 render(obj);

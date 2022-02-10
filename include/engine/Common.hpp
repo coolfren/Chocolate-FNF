@@ -29,7 +29,8 @@ namespace Engine
         TEXT,
         ALPHABET,
         GROUP,
-        SHAPE
+        SHAPE,
+        AUDIO
     };
 
     class Basic

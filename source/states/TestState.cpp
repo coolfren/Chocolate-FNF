@@ -11,17 +11,11 @@ namespace States
         //group->add(sprite);
         Engine::Alphabet* te = new Engine::Alphabet("C PLUS PLUS IS BASED AND REDPILLED");
         add(te);
+        Audio::Audio* audio = new Audio::Audio("romfs/audio/menu.ogg", true);
+        audio->playMusic(true);
         //Engine::Text* text = new Engine::Text("TEST 123 STUFF", 0, 400, 78, {0, 0, 0, 255}, getFont("fnf"));
         //group->add(text);
         //add(group);
-        
-        Mix_OpenAudio( 22050, MIX_DEFAULT_FORMAT, 2, 4096 );
-        Mix_Chunk *music = Mix_LoadWAV("romfs/songs/menu.wav");
-        if(music == nullptr){
-            printf("Mix_LoadMUS: %s\n", Mix_GetError());
-            return;
-        }
-        Mix_PlayChannel(-1, music, 0);
         Music::Conductor::changeBPM(102);
         threads.add("musicPos", [](){
             while(true){

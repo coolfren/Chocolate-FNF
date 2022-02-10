@@ -24,7 +24,6 @@ namespace Engine
             spr->animated = true;
             add(spr);
         }
-        //baseSpr->parseSparrowSpritesheet(getXML("alphabet"));
     }
 
     Alphabet::~Alphabet(){

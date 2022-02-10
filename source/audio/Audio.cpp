@@ -15,7 +15,7 @@ namespace Audio
         if (music)
         {
             this->music = Mix_LoadMUS(path);
-            if(!music)
+            if(!this->music)
             {
                 printf("Failed to load music! SDL_mixer Error: %s\n", Mix_GetError());
             }

@@ -79,8 +79,9 @@ namespace Engine
         this->frames = *frames;
     }
 
-    void Sprite::parseSparrowSpritesheet(const char* path, int frameps, const std::string& defaultAnimation){
+    void Sprite::parseSparrowSpritesheet(const char* path, int frameps, const std::string& defaultAnimation, bool looped){
         fps = frameps;
+        loop = looped;
         frameIndex = 0;
         tinyxml2::XMLDocument* doc = new tinyxml2::XMLDocument();
         if(doc->LoadFile(path) != tinyxml2::XML_SUCCESS){

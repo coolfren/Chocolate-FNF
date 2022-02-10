@@ -2,10 +2,14 @@
 
 namespace Engine
 {
-    Alphabet::Alphabet(const char* text){
+    Engine::Sprite* Alphabet::baseSpr = nullptr;
+
+    Alphabet::Alphabet(const char* text, int x, int y){
         type = Engine::Type::ALPHABET;
-        baseSpr = new Engine::Sprite(getImage("alphabet"));
-        baseSpr->parseSparrowSpritesheet(getXML("alphabet"), 24, "a lowercase");
+        if(baseSpr == nullptr){
+            baseSpr = new Engine::Sprite(getImage("alphabet"));
+            baseSpr->parseSparrowSpritesheet(getXML("alphabet"), 24, "a lowercase", true);
+        }
         for (int i = 0; i < strlen(text); i++){
             char c = text[i];
             if (c == ' '){
@@ -20,7 +24,8 @@ namespace Engine
             spr->setFrames(baseSpr->getFrames());
             spr->w = baseSpr->w;
             spr->h = baseSpr->h;
-            spr->x = (50 * i);
+            spr->x = x + (50 * i);
+            spr->y = y;
             spr->animated = true;
             add(spr);
         }

@@ -20,6 +20,9 @@
 #include <unistd.h>
 #include <tinyxml2.h>
 
+#define screenCenterX (1280 / 2)
+#define screenCenterY (720 / 2)
+
 namespace Engine
 {
     enum class Type

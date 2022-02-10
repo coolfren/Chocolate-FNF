@@ -9,8 +9,8 @@ namespace Engine
     class Alphabet : public Containers::Group
     {
         public:
-        Engine::Sprite* baseSpr;
-        Alphabet(const char *text);
+        static Engine::Sprite* baseSpr; //making this static so more optimizerinos
+        Alphabet(const char *text, int x, int y);
         virtual ~Alphabet();
     };
 }

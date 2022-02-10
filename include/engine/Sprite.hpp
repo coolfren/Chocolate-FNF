@@ -28,7 +28,8 @@ namespace Engine
         std::map<std::string, std::vector<Frame>> frames;
         
         public:
-        bool animated;
+        bool animated = false;
+        bool loop = false;
         std::string curAnim;
 
         unsigned int frameIndex;
@@ -51,7 +52,7 @@ namespace Engine
         std::map<std::string, std::vector<Frame>>* getFrames();
         void setFrames(std::map<std::string, std::vector<Frame>>* frames);
 
-        void parseSparrowSpritesheet(const char* path, int frameps, const std::string& defaultAnimation);
+        void parseSparrowSpritesheet(const char* path, int frameps, const std::string& defaultAnimation, bool looped);
 
         void playAnim(const char* anim);
     };

@@ -33,6 +33,8 @@ namespace Engine
                 break;
             case Type::SHAPE:
                 break;
+            case Type::AUDIO:
+                break;
             case Type::NOTHING:
                 break;
         }

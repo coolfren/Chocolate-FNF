@@ -15,7 +15,10 @@ namespace States
         TestState(){};
         ~TestState(){};
         void create();
+        Containers::Group* alphabetGroup;
         virtual void beatHit();
-        virtual void createCoolText(const std::string& funny);
+        virtual void createCoolText(const std::vector<std::string> funny);
+        virtual void createMoreCoolText(const std::string& funny);
+        virtual void removeText();
     };
 }

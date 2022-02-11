@@ -29,8 +29,16 @@ namespace Containers
             objects.erase(found);
         }
     }
+    
+    void Group::remove(int index)
+    {
+        objects.erase(objects.begin() + index);
+    }
 
-    Engine::Basic* Group::operator[](int index)
+    int Group::size(){
+        return objects.size();
+    }
+    inline Engine::Basic* &Group::operator[](int index)
     {
         return objects[index];
     }

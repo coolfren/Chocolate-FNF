@@ -12,5 +12,6 @@ namespace Engine
         static Engine::Sprite* baseSpr; //making this static so more optimizerinos
         Alphabet(const char *text, int x, int y);
         virtual ~Alphabet();
+        void screenCenter(Axes axis);
     };
 }

@@ -36,6 +36,13 @@ namespace Engine
         AUDIO
     };
 
+    enum class Axes
+    {
+        X,
+        Y,
+        XY
+    };
+
     class Basic
     {
         private:

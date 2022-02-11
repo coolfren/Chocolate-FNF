@@ -53,7 +53,7 @@ namespace Engine
         for(auto& o : objects){
             switch(axis){
                 case Axes::X:
-                    ((Engine::Sprite*)o)->x += ((1280 / 2) - (((Engine::Sprite*)o)->w));
+                    ((Engine::Sprite*)o)->x += ((1280 / 2) - (((Engine::Sprite*)o)->getFrame()->w));
                     break;
                 case Axes::Y:
                     ((Engine::Sprite*)o)->y = (720 / 2) - (((Engine::Sprite*)o)->h / 2);

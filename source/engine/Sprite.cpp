@@ -23,13 +23,9 @@ namespace Engine
         }
         #endif
         tex = IMG_LoadTexture(Engine::renderer, path);//SDL_CreateTextureFromSurface(Engine::renderer, surf);
-        int wd, hi;
-        SDL_QueryTexture(tex, NULL, NULL, &wd, &hi);
-        _pos = {0, 0, wd, hi};
+        SDL_QueryTexture(tex, NULL, NULL, &w, &h);
+        _pos = {0, 0, w, h};
         frame = (Frame*)malloc(sizeof(Frame));
-
-        w = wd;
-        h = hi;
     }
 
     Sprite::~Sprite(){

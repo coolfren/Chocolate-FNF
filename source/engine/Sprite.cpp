@@ -23,9 +23,14 @@ namespace Engine
         }
         #endif
         tex = IMG_LoadTexture(Engine::renderer, path);//SDL_CreateTextureFromSurface(Engine::renderer, surf);
+        if(tex == NULL){
+            std::cout << "Error loading texture: " << path << '\n';
+            tex = IMG_LoadTexture(Engine::renderer, getImage("missing"));
+        }
         SDL_QueryTexture(tex, NULL, NULL, &w, &h);
         _pos = {0, 0, w, h};
         frame = (Frame*)malloc(sizeof(Frame));
+        *frame = {0, 0, w, h};
     }
 
     Sprite::~Sprite(){
@@ -50,12 +55,12 @@ namespace Engine
             }
             else
                 _pos = {x, y, w, h};
-            color = {255, 255, 255, alpha};
-            SDL_SetTextureAlphaMod(tex, alpha); //what the fuck why are they seperate functions gg sdl devs
-            SDL_SetTextureColorMod(tex, color.r, color.g, color.b);
         }
         else
             _pos = {x, y, w, h};
+        color = {255, 255, 255, alpha};
+        SDL_SetTextureAlphaMod(tex, alpha); //what the fuck why are they seperate functions gg sdl devs
+        SDL_SetTextureColorMod(tex, color.r, color.g, color.b);
     }
 
     SDL_Texture* Sprite::getTex(){
@@ -65,7 +70,10 @@ namespace Engine
     void Sprite::setTex(SDL_Texture* tex){
         this->tex = tex;
     }
-
+    void Sprite::setPosition(int x, int y){
+        this->x = x;
+        this->y = y;
+    }
     const SDL_Rect* Sprite::getPos(){
         return &_pos;
     }

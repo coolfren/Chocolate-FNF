@@ -48,7 +48,7 @@ namespace Engine
 
         SDL_Texture* getTex();
         void setTex(SDL_Texture* tex);
-
+        void setPosition(int x, int y);
         const SDL_Rect* getPos();
         const Frame* getFrame();
 

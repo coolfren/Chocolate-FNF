@@ -11,6 +11,10 @@ namespace Engine
 
     State::~State()
     {
+        for(auto it = threads._threads.begin(); it != threads._threads.end(); it++)
+        {
+        }
+
         for(auto& object : objects)
         {
             delete object;
@@ -61,7 +65,15 @@ namespace Engine
     void State::beatHit(){}
 
     void State::keyEvent(SDL_Keycode key, bool isPressed)
-    {}
+    {
+        keysPressed[key] = isPressed;
+        keysJustPressed[key] = isPressed;
+    }
+
+    void State::keyRelease(SDL_Keycode key)
+    {
+        keysJustPressed[key] = false;
+    }
 
     void threadManager::add(const char* name, std::thread& thread)
     {

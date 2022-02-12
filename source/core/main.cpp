@@ -1,9 +1,9 @@
 //#include "engine/Engine.hpp"
 #include <SDL2/SDL.h>
-#include <thread>
-#include <chrono>
 #include "engine/Engine.hpp"
-#include "states/TestState.hpp"
+#include "states/TitleState.hpp"
+#include "states/MainMenuState.hpp"
+#include "states/PlayState.hpp"
 #define SDL_MAIN_HANDLED
 
 Engine::launchOptions launch = {
@@ -13,6 +13,6 @@ Engine::launchOptions launch = {
 };
 
 int main(){
-    Engine::initialize(launch, new States::TestState());
+    Engine::initialize(launch, new States::MainMenuState());
     return 0;
 }

@@ -1,8 +1,9 @@
-#include "states/TestState.hpp"
+#include "states/TitleState.hpp"
 
 namespace States
 {
-    void TestState::create(){
+    void TitleState::create(){
+        Music::Conductor::songPosition = 0;
         alphabetGroup = new Containers::Group();
         add(alphabetGroup);
         Audio::Audio* audio = new Audio::Audio("menu", true);
@@ -34,7 +35,6 @@ namespace States
         threads.add("musicPos", [&audio](){
             while(true){
                 if(!Mix_PlayingMusic()){
-                    std::cout << "FUCK";
                     audio->playMusic(true);
                 }
                 Music::Conductor::songPosition++;
@@ -42,14 +42,22 @@ namespace States
             }
         });
     }
-    void TestState::update(){
+    void TitleState::update(){
         State::update();
         if(white->color.a != 0)
             white->color.a -= 1;
-        if(keysJustPressed[SDLK_RETURN] && !skippedIntro)
-            skipIntro();
+         if(keysJustPressed[SDLK_RETURN] && !skippedIntro){
+             skipIntro();
+         }
+         if(keysJustPressed[SDLK_RETURN] && skippedIntro && !f){
+            enter->playAnim("ENTER PRESSED");
+            confirm->play();
+            f = true;
+            Engine::switchState(new MainMenuState());//
+         }
+
     }
-    void TestState::createCoolText(const std::vector<std::string> funny){
+    void TitleState::createCoolText(const std::vector<std::string> funny){
         for(int i = 0; i < funny.size(); i++){
             Engine::Alphabet* s = new Engine::Alphabet(funny[i].c_str(), 0, (i * 60) + 200);
             s->screenCenter(Engine::Axes::X);
@@ -57,12 +65,12 @@ namespace States
         }
 
     }
-    void TestState::createMoreCoolText(const std::string& funny){
+    void TitleState::createMoreCoolText(const std::string& funny){
         Engine::Alphabet* s = new Engine::Alphabet(funny.c_str(), 0, (alphabetGroup->size() * 60) + 200);
         s->screenCenter(Engine::Axes::X);
         alphabetGroup->add(s);
     }
-    void TestState::removeText(){
+    void TitleState::removeText(){
         for(auto& o : alphabetGroup->objects){
             alphabetGroup->remove(o);
         }
@@ -70,7 +78,7 @@ namespace States
             alphabetGroup->remove(o);
         } //sometimes it doesn't want to remove so i have to do this twice
     }
-    void TestState::skipIntro(){
+    void TitleState::skipIntro(){
         skippedIntro = true;
         removeText();
         white->color.a = 255; // simulates FlxG.camera.flash()
@@ -78,22 +86,13 @@ namespace States
         logo->alpha = 255;
         enter->alpha = 255;
     }
-    void TestState::keyEvent(SDL_Keycode key, bool isPressed){
-        if(key == SDLK_RETURN && !skippedIntro){
-            skipIntro();
-        }
-        else if(key == SDLK_RETURN && skippedIntro && !f){
-            confirm->play();
-            enter->playAnim("ENTER PRESSED");
-            f = true;
-        };
-    }
-    void TestState::beatHit(){
+
+    void TitleState::beatHit(){
         if(skippedIntro)
             return;
         switch(curBeat){
 			case 1:
-				createCoolText({"NINJAMUFFIN99", "PHANTONARCADE", "KAWAISPRITE", "EVILSKER"});
+				createCoolText({"NINJAMUFFIN", "PHANTONARCADE", "KAWAISPRITE", "EVILSKER"});
                 break;
 			case 3:
 				createMoreCoolText("PRESENT");

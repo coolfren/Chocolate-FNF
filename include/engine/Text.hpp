@@ -11,7 +11,8 @@ namespace Engine
         SDL_Rect pos;
         TTF_Font* font;
         SDL_Surface* surf;
-        SDL_Texture* tex;
+        SDL_Texture* tex, *tex2;
+        char* fontPath;
         SDL_Color color;
         Text(const char* text, int x, int y, int size, SDL_Color color, const char* fontPath);
         ~Text();

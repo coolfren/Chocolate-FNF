@@ -12,6 +12,7 @@ namespace Engine
         void add(const char* name, std::function<void()> func);
         void remove(const char* name);
         std::thread& operator[](const char* name);
+        friend class State;
     };
 
     class State
@@ -33,6 +34,7 @@ namespace Engine
         void updateCurStep();
 
         virtual void keyEvent(SDL_Keycode key, bool isPressed);
+        virtual void keyRelease(SDL_Keycode key);
         virtual void stepHit();
         virtual void beatHit();
     };

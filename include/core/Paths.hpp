@@ -27,3 +27,5 @@ const char* getImage(const char* name);
 const char* getXML(const char* name);
 
 const char* getFont(const char* name);
+
+std::string* getSound(const char* name, bool music);

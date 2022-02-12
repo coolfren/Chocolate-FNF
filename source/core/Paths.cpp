@@ -35,3 +35,9 @@ const char* getFont(const char* name){
     std::string* _path = new std::string(basePath);
     return _path->append("fonts/").append(name).append(".ttf").c_str();
 }
+
+std::string* getSound(const char* name, bool music){
+    std::string* _path = new std::string(basePath);
+    _path->append(music ? "music/" : "sounds/").append(name).append(".ogg");
+    return _path;
+}

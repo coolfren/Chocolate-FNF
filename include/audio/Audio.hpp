@@ -1,6 +1,6 @@
 #pragma once
 #include "engine/Common.hpp"
-
+#include "core/Paths.hpp"
 namespace Audio
 {
     class Audio : public Engine::Basic

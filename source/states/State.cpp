@@ -60,6 +60,9 @@ namespace Engine
 
     void State::beatHit(){}
 
+    void State::keyEvent(SDL_Keycode key, bool isPressed)
+    {}
+
     void threadManager::add(const char* name, std::thread& thread)
     {
         _threads[name] = &thread;

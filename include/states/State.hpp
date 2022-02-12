@@ -17,6 +17,8 @@ namespace Engine
     class State
     {
         public:
+        bool keysPressed[256];
+        int keysJustPressed[256];
         float lastBeat, lastStep;
         unsigned int curStep, curBeat;
         std::vector<Engine::Basic*> objects;
@@ -29,6 +31,8 @@ namespace Engine
         virtual void remove(Engine::Basic* object);
         void updateBeat();
         void updateCurStep();
+
+        virtual void keyEvent(SDL_Keycode key, bool isPressed);
         virtual void stepHit();
         virtual void beatHit();
     };

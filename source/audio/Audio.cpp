@@ -12,9 +12,10 @@ namespace Audio
     Audio::Audio(const char* path, bool music)
     {
         type = Engine::Type::AUDIO;
+        std::string* str = getSound(path, music);
         if (music)
         {
-            this->music = Mix_LoadMUS(path);
+            this->music = Mix_LoadMUS(str->c_str());
             if(!this->music)
             {
                 printf("Failed to load music! SDL_mixer Error: %s\n", Mix_GetError());
@@ -22,12 +23,13 @@ namespace Audio
         }
         else
         {
-            this->audio = Mix_LoadWAV(path);
+            this->audio = Mix_LoadWAV(str->c_str());
             if(!audio)
             {
                 printf("Failed to load chunk! SDL_mixer Error: %s\n", Mix_GetError());
             }
         }
+        delete str;
     }
 
     void Audio::play()

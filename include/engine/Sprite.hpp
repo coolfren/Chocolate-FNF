@@ -1,6 +1,6 @@
 #pragma once
 #include "engine/Common.hpp"
-
+#include "engine/Camera.hpp"
 namespace Engine
 {
     struct Frame
@@ -35,8 +35,11 @@ namespace Engine
         unsigned int frameIndex;
         int fps = 24;
         int x = 0, y = 0, frameX = 0, frameY = 0;
-        int w = 0, h = 0;
-
+        int w = 0, h = 0, fWidth = 0, fHeight = 0;
+        float screenscrollX = 1.0f, screenscrollY = 1.0f;
+        Camera* camera;
+        Uint8 alpha = 255;
+        SDL_Color color = {255, 255, 255, 255};
         Sprite();
         Sprite(const char* path);
         virtual ~Sprite();
@@ -47,7 +50,7 @@ namespace Engine
         void setTex(SDL_Texture* tex);
 
         const SDL_Rect* getPos();
-        const SDL_Rect* getFrame();
+        const Frame* getFrame();
 
         std::map<std::string, std::vector<Frame>>* getFrames();
         void setFrames(std::map<std::string, std::vector<Frame>>* frames);

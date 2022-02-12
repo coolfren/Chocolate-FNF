@@ -1,1 +1,2 @@
-clang++ -O3 -g -Wall -std=c++14 -Iinclude/ -lSDL2 -lSDL2_image -lSDL2_ttf -lSDL2_mixer -ltinyxml2 `sdl2-config --cflags --libs` source/engine/*.cpp source/core/*.cpp source/states/*.cpp source/audio/*.cpp -o sdlproj
+mkdir -p build_pc
+clang++ -O3 -g -Wall -std=c++14 -Iinclude/ -lSDL2 -lSDL2_image -lSDL2_ttf -lSDL2_mixer -ltinyxml2 `sdl2-config --cflags --libs` source/engine/*.cpp source/core/*.cpp source/states/*.cpp source/audio/*.cpp -o build_pc/ -o sdlproj

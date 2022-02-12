@@ -35,7 +35,8 @@ namespace Engine
             spr->ID = i;
             spr->curAnim = baseAnim;
             spr->setTex(baseSpr->getTex());
-            spr->setFrames(baseSpr->getFrames());
+            auto* theframes = baseSpr->getFrames();
+            spr->setFrames(theframes);
             spr->w = baseSpr->w;
             spr->h = baseSpr->h;
             spr->x = x + (50 * i);
@@ -50,17 +51,22 @@ namespace Engine
     }
 
     void Alphabet::screenCenter(Axes axis){
+        int wC = 0;
+        int i = 0;
+        int size = objects.size();
         for(auto& o : objects){
+            i++;
+            //auto* obj = ((Engine::Sprite*)o);
+            Engine::Sprite* obj = (Engine::Sprite*)o;
+            wC += obj->w;
             switch(axis){
                 case Axes::X:
-                    ((Engine::Sprite*)o)->x += ((1280 / 2) - (((Engine::Sprite*)o)->getFrame()->w));
+                    obj->x = (((1280 / 2) - (size * 20)) + (i * 50)) - 100;
                     break;
                 case Axes::Y:
-                    ((Engine::Sprite*)o)->y = (720 / 2) - (((Engine::Sprite*)o)->h / 2);
+                    obj->y = (720 / 2) - (obj->h / 2);
                     break;
                 case Axes::XY:
-                    ((Engine::Sprite*)o)->x = (1280 / 2) - (((Engine::Sprite*)o)->w / 2);
-                    ((Engine::Sprite*)o)->y = (720 / 2) - (((Engine::Sprite*)o)->h / 2);
                     break;
             }
         }

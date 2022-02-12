@@ -16,7 +16,7 @@ namespace Engine
     {
         switch(obj->type){
             case Type::SPRITE:
-                SDL_RenderCopy(Engine::renderer, ((Sprite*)obj)->getTex(), ((Sprite*)obj)->getFrame(), ((Sprite*)obj)->getPos());
+                SDL_RenderCopy(Engine::renderer, ((Sprite*)obj)->getTex(), (SDL_Rect*)(((Sprite*)obj)->getFrame()), ((Sprite*)obj)->getPos());
                 break;
             case Type::TEXT:
                 SDL_RenderCopy(Engine::renderer, ((Text*)obj)->tex, nullptr, &((Text*)obj)->pos);
@@ -31,8 +31,12 @@ namespace Engine
                     render(object);
                 }
                 break;
-            case Type::SHAPE:
+            case Type::SHAPE:{
+                SDL_Color shapeColor = ((Engine::Shape*)obj)->color;
+                SDL_SetRenderDrawColor(Engine::renderer, shapeColor.r, shapeColor.g, shapeColor.b, shapeColor.a);
+                SDL_RenderFillRect(Engine::renderer, ((Engine::Shape*)obj)->getPos());
                 break;
+            }
             case Type::AUDIO:
                 break;
             case Type::NOTHING:
@@ -53,6 +57,7 @@ namespace Engine
         #endif
         Engine::window = SDL_CreateWindow(launch.title, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, launch.width, launch.height, SDL_WINDOW_SHOWN);
         Engine::renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
+        SDL_SetRenderDrawBlendMode(Engine::renderer, SDL_BLENDMODE_BLEND);
         curState = beginState;
         curState->create();
         while(true){
@@ -61,7 +66,14 @@ namespace Engine
                 if(event.type == SDL_QUIT){
                     return destruct();
                 }
+                if(event.type == SDL_KEYDOWN){
+                    curState->keyEvent(event.key.keysym.sym, true);
+                }
+                if(event.type == SDL_KEYUP){
+                    curState->keyEvent(event.key.keysym.sym, false);
+                }
             }
+            SDL_SetRenderDrawColor(Engine::renderer, 0, 0, 0, 255);
             SDL_RenderClear(Engine::renderer);
             curState->update();
             for(auto& obj : curState->objects){

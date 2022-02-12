@@ -32,6 +32,7 @@ namespace Engine
         #ifdef USE_SURF
         SDL_FreeSurface(surf);
         #endif
+        free(frame);
         SDL_DestroyTexture(tex);
     }
 
@@ -42,10 +43,16 @@ namespace Engine
             else
                 frameIndex = 0;
             frame = &frames[curAnim][frameIndex];
-            if(frame != nullptr)
+            if(frame != nullptr){
                 _pos = {x - frame->frameX, y - frame->frameY, frame->w, frame->h};
+                fWidth = frame->w;
+                fHeight = frame->h;
+            }
             else
                 _pos = {x, y, w, h};
+            color = {255, 255, 255, alpha};
+            SDL_SetTextureAlphaMod(tex, alpha); //what the fuck why are they seperate functions gg sdl devs
+            SDL_SetTextureColorMod(tex, color.r, color.g, color.b);
         }
         else
             _pos = {x, y, w, h};
@@ -63,8 +70,8 @@ namespace Engine
         return &_pos;
     }
 
-    const SDL_Rect* Sprite::getFrame(){
-        return (const SDL_Rect*)frame;
+    const Frame* Sprite::getFrame(){
+        return frame;
     }
 
     std::map<std::string, std::vector<Frame>>* Sprite::getFrames(){

@@ -6,19 +6,27 @@
 #include "engine/Containers.hpp"
 #include "engine/Alphabet.hpp"
 #include "audio/Audio.hpp"
-
+#include "engine/Shape.hpp"
 namespace States
 {
-    class TestState : public Engine::State
+    class TestState : public virtual Engine::State
     {
         public:
+        bool f = false;
+        Engine::Sprite* logo, *gf, *enter;
+        Engine::Shape* white;
+        Audio::Audio* confirm;
+        bool skippedIntro = false;
         TestState(){};
         ~TestState(){};
-        void create();
+        void create() override;
+        void update() override;
         Containers::Group* alphabetGroup;
-        virtual void beatHit();
-        virtual void createCoolText(const std::vector<std::string> funny);
-        virtual void createMoreCoolText(const std::string& funny);
-        virtual void removeText();
+        void beatHit() override;
+        void keyEvent(SDL_Keycode key, bool isPressed) override;
+        void createCoolText(const std::vector<std::string> funny);
+        void createMoreCoolText(const std::string& funny);
+        void removeText();
+        void skipIntro();
     };
 }

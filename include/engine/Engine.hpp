@@ -5,6 +5,7 @@
 #include "engine/Text.hpp"
 #include "engine/Containers.hpp"
 #include "core/Paths.hpp"
+#include "engine/Shape.hpp"
 #include "states/State.hpp"
 
 namespace Engine
